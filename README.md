@@ -11,6 +11,16 @@ The iNaturalist dataset presents a challenging image classification task with na
 3. Implementing efficient fine-tuning strategies to balance performance and computational cost
 
 ## Implementation Details
+```
+├── Q1.md                  # Addressing input/output adaptations for pre-trained models
+├── Q2.md                  # Discussion of fine-tuning strategies
+├── Q3.py                  # Implementation of fine-tuning with ResNet50
+├── dataset_split.py       # Stratified dataset splitting with subset options
+└── README.md              # Detailed comparison of fine-tuning vs. training 
+└── inaturalist_12k/       # Dataset directory
+                    ├── train/       # Training data into 10 class folders
+                    └── val/         # Validation data into 10 class folders
+```
 
 ### Pre-Trained Model Selection
 
