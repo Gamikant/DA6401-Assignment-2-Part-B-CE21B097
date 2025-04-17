@@ -40,7 +40,7 @@ We implemented the "Freezing Base Layers" strategy, which:
 
 - Preserves the general feature extraction capabilities in early layers
 - Allows adaptation of higher-level features to the specific characteristics of biological specimens
-- Uses different learning rates for different parts of the network (0.001 for the new classification layer, 0.0001 for the unfrozen pre-trained layers)
+- Uses different learning rates for different parts of the network (0.001 for the new classification layer, 0.0001 for the unfrozen pre-trained layers) <br>
 How to run
 ```
 python Q3.py
