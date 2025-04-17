@@ -7,10 +7,10 @@ import torch.optim as optim
 from dataset_split import create_stratified_split
 
 def main():
-    # Load pre-trained ResNet50
+    # Loading pre-trained ResNet50
     model = models.resnet50(weights=models.ResNet50_Weights.DEFAULT)
 
-    # Freeze the first 3 blocks (early layers)
+    # Freezing the first 3 blocks (early layers) - Strategy 4
     ct = 0
     for child in model.children():
         ct += 1
@@ -18,32 +18,28 @@ def main():
             for param in child.parameters():
                 param.requires_grad = False
 
-    # Replace the final fully connected layer
+    # Replacing the final fully connected layer
     num_features = model.fc.in_features
     model.fc = nn.Linear(num_features, 10)  # 10 classes for iNaturalist
 
-    # Set device
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model = model.to(device)
 
-    # Create data loaders with appropriate preprocessing
     train_loader, val_loader, test_loader, class_names = create_stratified_split(
         dataset_dir="inaturalist_12k",
         img_size=224,
         batch_size=64,
         val_size=0.2,
-        subset_fraction=0.25  # Using reduced dataset for faster training
+        subset_fraction=0.25,  # Using 25% of the data for training
     )
 
-    # Define loss function and optimizer
     criterion = nn.CrossEntropyLoss()
-    # Use different learning rates for frozen and trainable layers
+    # Using different learning rates for frozen and trainable layers
     optimizer = optim.Adam([
         {'params': model.fc.parameters(), 'lr': 0.001},
         {'params': model.layer4.parameters(), 'lr': 0.0001}
     ])
 
-    # Training loop
     num_epochs = 5
     for epoch in range(num_epochs):
         # Training phase
